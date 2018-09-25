@@ -1,9 +1,7 @@
 <template>
   <div id="app">
     <h1>NTUTEE</h1>
-    <!-- <img id="img_src" src="static/bart_simpson/pic_0059.jpg"> -->
-    <!-- <img id="img_src" src="static/kent_brockman/pic_0001.jpg"> -->
-    <img id="img_src" src="static/lisa_simpson/pic_0105.jpg">
+    <img id="img_src" src="static/demo/bart_simpson_1.jpg">
   </div>
 </template>
 
