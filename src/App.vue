@@ -1,13 +1,12 @@
 <template>
-  <div class="simpson"> 
-    <!-- <div>
+  <div class="bg">
+    <div>
        <img src="/static/Logo.jpg" alt="LOGO">
-    </div> -->
+    </div>
     <div class="uk-container uk-container-expand">
       <!-- Upload Picture -->
-      <div class="uk-child-width-expand@s uk-text-center" uk-grid>
+      <div class="uk-child-width-expand@s uk-text-center uk-padding" uk-grid>
         <div>
-          <div class="uk-padding">
             <div v-if="!image">
               <div class="uk-placeholder uk-position-relative">
                 <h2 class="uk-position-center">Select an image</h2>
@@ -16,61 +15,73 @@
                 <input type="file" @change="onFileChange" multiple>
                 <button class="uk-button uk-button-secondary" type="button" tabindex="-1">Upload</button>
               </div>
-              <progress id="js-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
             </div>
             <div v-else>
-              <div class="uk-placeholder">
-                <img id="img_src" :src="image" alt="uploadImage" style="height: 300px;">
+              <div class="uk-placeholder uk-position-relative">
+                <img class="uk-position-center" id="img_src" :src="image" alt="uploadImage" style="max-height: 300px;">
               </div>
               <div class="uk-flex uk-flex-center">
-                <button class="uk-button uk-button-secondary" @click="created">Predict</button>
-                <div class="uk-padding-small uk-padding-remove-vertical"></div>
                 <button class="uk-button uk-button-secondary" @click="removeImage">Remove</button>
               </div>
             </div>
-          </div>
-        </div>
-        <!-- Show execute time -->
-        <div class="uk-padding uk-position-relative">
-          <div class="move uk-position-center">
-            <img src="/static/time.png" width="80" alt="">
-            <h2>Execute time</h2>
-            <h2>2.71S</h2>
-          </div>
         </div>
         <!-- Show Predict Result -->
-        <div class="uk-padding">
+        <div>
           <div v-if="!character">
-            <table class="uk-table uk-table-hover uk-table-divider">
-                <thead>
-                    <tr>
-                        <th>Character</th>
-                        <th>Percent</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Simpson</td>
-                        <td>100%</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="uk-child-width-1-1 uk-text-center" uk-grid>
+              <div class="uk-child-width-1-2 uk-padding-small" uk-grid>
+                <div>
+                  <img src="/static/who.png" width="80" alt="">
+                </div>
+                <div>
+                  <h3>Character</h3>
+                </div>
+              </div>
+              <div class="uk-child-width-1-2  uk-padding-small" uk-grid>
+                <div>
+                  <img src="/static/percent.png" width="80" alt="">
+                </div>
+                <div>
+                  <h3>Percent</h3>
+                </div>
+              </div>
+              <div class="uk-child-width-1-2  uk-padding-small" uk-grid>
+                <div>
+                  <img src="/static/time1.png" width="80" alt="">                  
+                </div>
+                <div>
+                  <h3>%</h3>
+                </div>
+              </div>
+            </div>
           </div>
-          <div v-else>
-            <table class="uk-table uk-table-hover uk-table-divider">
-                <thead>
-                    <tr>
-                        <th>Character</th>
-                        <th>Percent</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{{character}}</td>
-                        <td>100%</td>
-                    </tr>
-                </tbody>
-            </table>
+          <div class="uk-padding" v-else>
+            <div class="uk-child-width-1-1 uk-text-center uk-flex-center" uk-grid>
+              <div class="uk-child-width-1-2 uk-padding-small" uk-grid>
+                <div>
+                  <img src="/static/who.png" width="80" alt="">
+                </div>
+                <div>
+                  <h3>{{character}}</h3>
+                </div>
+              </div>
+              <div class="uk-child-width-1-2  uk-padding-small" uk-grid>
+                <div>
+                  <img src="/static/percent.png" width="80" alt="">
+                </div>
+                <div>
+                  <h3>{{percent}}%</h3>
+                </div>
+              </div>
+              <div class="uk-child-width-1-2  uk-padding-small" uk-grid>
+                <div>
+                  <img src="/static/time1.png" width="80" alt="">                  
+                </div>
+                <div>
+                  <h3>{{costTime}}</h3>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -96,8 +107,8 @@ import * as tf from '@tensorflow/tfjs'
 
 const MODEL_PATH = 'static/web_tfjs_model/model.json'
 const Character = ['荷熊·辛普森', '阿普·納哈薩皮馬佩蒂隆', '霸子·辛普森', '郭董', '維古姆警官', '宅神', '埃德娜·克拉巴佩爾',
-                  '荷馬·辛普森', '李掏', '小丑庫斯提', '倫尼·倫納德', '莉莎·辛普森', '美枝·辛普森', '郝融冰', '米爾豪斯·范霍滕',
-                  '莫少蔥', '魯肉王', '阿浮', '西蒙·喜金捏', '包添丁']
+  '荷馬·辛普森', '李掏', '小丑庫斯提', '倫尼·倫納德', '莉莎·辛普森', '美枝·辛普森', '郝融冰', '米爾豪斯·范霍滕',
+  '莫少蔥', '魯肉王', '阿浮', '西蒙·喜金捏', '包添丁']
 
 const loadModel = async () => {
   console.log('loading model...')
@@ -113,7 +124,8 @@ export default {
     return {
       image: '',
       character: '',
-      percent: ''
+      percent: '',
+      costTime: ''
     }
   },
   methods: {
@@ -129,12 +141,13 @@ export default {
         vm.image = e.target.result
       }
       reader.readAsDataURL(file)
-    },
-    removeImage () {
-      this.image = ''
-      this.character = ''
-    },
-    created () {
+
+      /*
+        Classification Simpson
+      */
+      var start = 0
+      var end = 0
+      start = new Date().getTime()
       loadModel().then(model => {
         console.log('Predicting...')
 
@@ -157,25 +170,36 @@ export default {
           var imgResize = tf.image.resizeBilinear(imgNorm, [64, 64])
           return model.predict(imgResize.reshape([1, 64, 64, 3]))
         })
+        end = new Date().getTime()
         predication.print()
         var idx = predication.argMax(1).dataSync()[0]
-        var max = predication.argMax(1)
-
-        console.log(Character[idx])
-        console.log(max)
+        const max = predication.max().dataSync()[0]
+        this.percent = max.toFixed(5) * 100
         this.character = Character[idx]
-
-        console.log('Complete!')
+        this.costTime = (end - start) / 1000 + ' Sec'
       })
+    },
+    removeImage () {
+      this.image = ''
+      this.character = ''
+      this.costTime = ''
+      this.percent = ''
     }
   }
 }
 </script>
 
 <style>
-.simpson{
-  background-image: url("/static/730131.jpg");
+html, body{
+  height: 100%;
 }
+/* .bg {
+  background: url("/static/730131.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+} */
 .move img{
   animation: floating 2s ease infinite;
 }
