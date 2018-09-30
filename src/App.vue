@@ -1,16 +1,14 @@
 <template>
   <div>
-    <!-- <div>
-       <img src="/static/Logo.jpg" alt="LOGO">
-    </div> -->
-    <div class="uk-height-large uk-flex uk-flex-center uk-flex-middle uk-background-cover" data-src="/static/Logo.jpg" uk-img>
-      <h1>The Simpsons Character Classification Application</h1>
+    <div>
+      <img src="/static/Logo.jpg" alt="">
+      <!-- <h1>The Simpsons Character Classification Application</h1> -->
     </div>
     <div class="uk-container uk-container-large uk-text-center uk-margin">
 
       <div v-if="!image">
-        <div class="uk-placeholder">
-          <h2 class="uk-position-center">Select an image</h2>
+        <div class="uk-placeholder uk-text-center">
+          <h2>Select an image</h2>
         </div>
         <div uk-form-custom>
           <input type="file" @change="onFileChange" multiple>
@@ -18,31 +16,28 @@
         </div>
       </div>
 
-      <div v-else>
-        <div class="uk-child-width-expand@s uk-flex-middle" uk-grid>
+      <div v-else class="uk-child-width-1-2@m uk-child-width-1-1@s uk-flex-middle uk-margin-remove" uk-grid>
 
-          <div class="uk-width-1-2">
-            <img id="img_src" :src="image">
-          </div>
-
-          <div v-show="isPredicted" class="uk-card uk-card-default uk-card-body character_introduction">
-            <!-- 年齡標籤，Male or Female -->
-            <div v-if="character_gender === 'Male'">
-              <div class="uk-card-badge uk-label">Maasdsale</div>
-            </div>
-            <div v-else>
-              <div class="uk-card-badge uk-label-danger">Feale</div>
-            </div>
-
-            <h2>{{ character_name }}</h2>
-            <h4 class="uk-text-left">10歲的霸子是荷馬和美枝唯一的兒子，花枝和奶嘴的哥哥。霸子最引人注目的特點就是他淘氣、不服管教、不尊重權威的性格。</h4>
-          </div>
-
+        <div class="uk-padding-remove">
+          <img id="img_src" :src="image">
         </div>
+
+        <div v-show="isPredicted" class="uk-card uk-card-default uk-card-body character_introduction">
+          <!-- 年齡標籤，Male or Female -->
+          <div v-if="character_gender === 'Male'">
+            <div class="uk-card-badge uk-label">Male</div>
+          </div>
+          <div v-else>
+            <div class="uk-card-badge uk-label uk-label-danger">Female</div>
+          </div>
+
+          <h2>{{ character_name }}</h2>
+          <h4 class="uk-text-left">10歲的霸子是荷馬和美枝唯一的兒子，花枝和奶嘴的哥哥。霸子最引人注目的特點就是他淘氣、不服管教、不尊重權威的性格。</h4>
+        </div>
+      </div>
         <!-- <div class="uk-flex uk-flex-center">
           <button class="uk-button uk-button-secondary" @click="removeImage">Remove</button>
         </div> -->
-      </div>
 
     </div>
 
@@ -182,14 +177,14 @@ export default {
     transform: rotate(-30deg) translateY(2px);
   }
 }
-.uk-placeholder{
-  height: 300px;
-  text-align: center;
+.uk-placeholder {
+  padding: 50px 30px;
+  border: 3px dashed #e5e5e5;
 }
-.bottom_info h3{
+.bottom_info h3 {
   font-family: SimSun, Microsoft JhengHei;
 }
-.character_introduction h2, h4{
+.character_introduction h2, h4 {
   font-family: SimSun, Microsoft JhengHei;
 }
 
