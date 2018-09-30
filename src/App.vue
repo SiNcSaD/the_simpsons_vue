@@ -2,8 +2,8 @@
   <div>
     <div>
       <img src="/static/Logo.jpg" alt="">
-      <!-- <h1>The Simpsons Character Classification Application</h1> -->
     </div>
+    <!-- <h1>The Simpsons Character Classification Application</h1> -->
     <div class="uk-container uk-container-large uk-text-center uk-margin">
 
       <div v-if="!image">
@@ -22,7 +22,7 @@
           <img id="img_src" :src="image">
         </div>
 
-        <div v-show="isPredicted" class="uk-card uk-card-default uk-card-body character_introduction">
+        <div v-show="isPredicted" class="uk-card uk-card-default uk-card-body">
           <!-- 年齡標籤，Male or Female -->
           <div v-if="character_gender === 'Male'">
             <div class="uk-card-badge uk-label">Male</div>
@@ -30,9 +30,9 @@
           <div v-else>
             <div class="uk-card-badge uk-label uk-label-danger">Female</div>
           </div>
-
-          <h2>{{ character_name }}</h2>
-          <h4 class="uk-text-left">10歲的霸子是荷馬和美枝唯一的兒子，花枝和奶嘴的哥哥。霸子最引人注目的特點就是他淘氣、不服管教、不尊重權威的性格。</h4>
+          <h2 class="character-Name">{{ character_name }}</h2>
+          <h2 class="character-Eng-Name">{{ character_eng_name }}</h2>
+          <h4 class="uk-text-left character-description">10歲的霸子是荷馬和美枝唯一的兒子，花枝和奶嘴的哥哥。霸子最引人注目的特點就是他淘氣、不服管教、不尊重權威的性格。</h4>
         </div>
       </div>
         <!-- <div class="uk-flex uk-flex-center">
@@ -52,29 +52,30 @@
 
 <script>
 import * as tf from '@tensorflow/tfjs'
-
+import Character from './character'
 const MODEL_PATH = 'static/web_tfjs_model/model.json'
+
 const Characters = [
-  {name: '荷熊·辛普森', gender: 'Male'},
-  {name: '阿普·納哈薩皮馬佩蒂隆', gender: 'Male'},
-  {name: '霸子·辛普森', gender: 'Male'},
-  {name: '郭董', gender: 'Male'},
-  {name: '維古姆警官', gender: 'Male'},
-  {name: '宅神', gender: 'Male'},
-  {name: '埃德娜·克拉巴佩爾', gender: 'Female'},
-  {name: '荷馬·辛普森', gender: 'Male'},
-  {name: '李掏', gender: 'Male'},
-  {name: '小丑庫斯提', gender: 'Male'},
-  {name: '倫尼·倫納德', gender: 'Male'},
-  {name: '莉莎·辛普森', gender: 'Female'},
-  {name: '美枝·辛普森', gender: 'Female'},
-  {name: '郝融冰', gender: 'Male'},
-  {name: '米爾豪斯·范霍滕', gender: 'Male'},
-  {name: '莫少蔥', gender: 'Male'},
-  {name: '魯肉王', gender: 'Male'},
-  {name: '阿浮', gender: 'Male'},
-  {name: '西蒙·喜金捏', gender: 'Male'},
-  {name: '包添丁', gender: 'Male'}
+  new Character('荷熊·辛普森', 'Grampa Simpson', 'Male', '11111111111'),
+  new Character('阿普·納哈薩皮馬佩蒂隆', 'Apu Nahasapeemapetilon', 'Male', '11111111111'),
+  new Character('霸子·辛普森', 'Bart Simpson', 'Male', '11111111111'),
+  new Character('郭董', 'Charles Montgomery Burns', 'Male', '11111111111'),
+  new Character('孔龍金', 'Chief Wiggum', 'Male', '11111111111'),
+  new Character('宅神', 'Comic Book Guy', 'Male', '11111111111'),
+  new Character('陳趾鹹', 'Edna Krabappel-Flanders', 'Female', '11111111111'),
+  new Character('荷馬·傑伊·辛普森', 'Homer Simpson', 'Male', '11111111111'),
+  new Character('李掏', 'Kent Brockman', 'Male', '11111111111'),
+  new Character('小丑阿基', 'Krusty the Clown', 'Male', '11111111111'),
+  new Character('藍尼·雷公', 'Lenny Leonard', 'Male', '11111111111'),
+  new Character('莉莎·辛普森', 'Lisa Simpson', 'Female', '11111111111'),
+  new Character('美枝·辛普森', 'Marge Simpson', 'Female', '11111111111'),
+  new Character('郝融冰', 'Mayor Quimby', 'Male', '11111111111'),
+  new Character('蘇呆子', 'Milhouse Van Houten', 'Male', '11111111111'),
+  new Character('莫少蔥', 'Moe Szyslak', 'Male', '11111111111'),
+  new Character('魯肉王', 'Ned Flanders', 'Male', '11111111111'),
+  new Character('阿浮', 'Nelson Muntz', 'Male', '11111111111'),
+  new Character('西蒙·喜金捏', 'Principal Skinner', 'Male', '11111111111'),
+  new Character('包添丁', 'Sideshow Bob', 'Male', '11111111111')
 ]
 
 const loadModel = async () => {
@@ -91,6 +92,7 @@ export default {
     return {
       image: '',
       character_name: '',
+      character_eng_name: '',
       percent: '',
       costTime: '',
       character_gender: 'Male',
@@ -140,11 +142,11 @@ export default {
           return model.predict(imgResize.reshape([1, 64, 64, 3]))
         })
         end = new Date().getTime()
-        predication.print()
         var idx = predication.argMax(1).dataSync()[0]
         const max = predication.max().dataSync()[0]
         this.percent = max.toFixed(5) * 100
-        this.character_name = Characters[idx].name
+        this.character_name = Characters[idx].chtName
+        this.character_eng_name = Characters[idx].engName
         this.costTime = (end - start) / 1000 + ' Sec'
         this.character_gender = Characters[idx].gender
         this.isPredicted = true
@@ -184,8 +186,21 @@ export default {
 .bottom_info h3 {
   font-family: SimSun, Microsoft JhengHei;
 }
-.character_introduction h2, h4 {
+#img_src {
+  padding: 0px 20px;
+}
+.character-Name {
+  display:inline-block;
+  font-weight: bold;
+  font-family: Microsoft JhengHei, SimSun;
+}
+.character-Eng-Name {
+  margin-left: 50px;
+  display: inline-block;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.character-description {
   font-family: SimSun, Microsoft JhengHei;
 }
-
 </style>
