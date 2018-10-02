@@ -19,7 +19,7 @@
       <div v-else class="uk-child-width-1-2@m uk-child-width-1-1@s uk-flex-middle uk-margin-remove" uk-grid>
 
         <div class="uk-padding-remove">
-          <img id="img_src" :src="image">
+          <img id="img_src" :src="image" max-height="300px">
         </div>
 
         <div v-show="isPredicted" class="uk-card uk-card-default uk-card-body">
@@ -31,7 +31,7 @@
             <div class="uk-card-badge uk-label uk-label-danger">Female</div>
           </div>
           <h2 class="character-Name">{{ predict_character.chtName }}</h2>
-          <h2 class="character-Eng-Name">{{ predict_character.engName }}</h2>
+          <!-- <h2 class="character-Eng-Name">{{ predict_character.engName }}</h2> -->
           <h4 class="uk-text-left character-description">{{ predict_character.description }}</h4>
         </div>
       </div>
@@ -105,18 +105,16 @@ export default {
     },
     createImage (file) {
       var reader = new FileReader()
-      var vm = this
       reader.onload = e => {
-        vm.image = e.target.result
+        this.image = e.target.result
       }
       reader.readAsDataURL(file)
 
       /*
         Classification Simpson
       */
-      var start = 0
-      var end = 0
-      start = new Date().getTime()
+      var start = new Date().getTime()
+
       loadModel().then(model => {
         console.log('Predicting...')
 
@@ -139,7 +137,7 @@ export default {
           var imgResize = tf.image.resizeBilinear(imgNorm, [64, 64])
           return model.predict(imgResize.reshape([1, 64, 64, 3]))
         })
-        end = new Date().getTime()
+        var end = new Date().getTime()
         var idx = predication.argMax(1).dataSync()[0]
         const max = predication.max().dataSync()[0]
         this.percent = max.toFixed(5) * 100
