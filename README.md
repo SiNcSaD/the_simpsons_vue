@@ -1,21 +1,38 @@
-# the-simpsons-vue
+# Simpson-Classification
+---
+## Predict the Characters in the Simpsons
+### 資料描述
+使用資料從 The Simpsons 影集中擷取出來的照片
+* About 1000 images per character
+* Pictures are under various size , scenes
+* not necessarily centered in each image and colud sometimes be with or cropped from other characters
 
-> A Vue.js project
+### 要求
+* 最差是隨便猜，此時的 CategoryAccuracy = 0.05
+* 最好是全對：CategoryAccuracy = 1.00
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+### Submission File
+對於每一個 ID 必須預測一個 character 的名稱，該文件包含標題，格式如下：
+	
+|      ID        |    character   			|
+| -------------  | ------------- 			|
+|       1        | abraham_grampa_simpson 	|
+|       2        | apu_nahasapeemapetilon	|
+|       3        | bart_simpson  			|
+|       4        | charles_montgomery_burns |
+|       5        | chief_wiggum  			|
+|       6        | comic_book_guy   		|
+|       7        | edna_krabappel  			|
+|       8        | homer_simpson    		|
+|       9        | kent_brockman  			|
+|       10       | krusty_the_clown   		|
+|       11       | lenny_leonard  			|
+|       12       | lisa_simpson    			|
+|       13       | marge_simpson  			|
+|       14       | mayor_quimby   			|
+|       15       | milhouse_van_houten   	|
+|       16       | moe_szyslak   			|
+|       17       | ned_flanders  			|
+|       18       | nelson_muntz   			|
+|       19       | principal_skinner  		|
+|       20       | sideshow_bob    			|
